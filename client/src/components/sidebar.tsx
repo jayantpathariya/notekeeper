@@ -1,8 +1,9 @@
+import { Link, useLocation } from "react-router-dom";
 import { Plus, X } from "lucide-react";
 
 import { cn } from "../lib/utils";
-import { Link, useLocation } from "react-router-dom";
 import { SidebarItem } from "./sidebar-item";
+import { useModal } from "../hooks/use-modal";
 
 import lightLogo from "../assets/logo-light.svg";
 import darkLogo from "../assets/logo-dark.svg";
@@ -25,6 +26,7 @@ const notes = [
 export const Sidebar = () => {
   const isOpen = false;
   const location = useLocation();
+  const { onOpen } = useModal();
 
   const activeNotebookId = location.pathname.split("/")[2];
 
@@ -45,7 +47,10 @@ export const Sidebar = () => {
           <X className="w-4 h-4" />
         </button>
       </div>
-      <button className="bg-primary-container-light hover:bg-primary-container-light/80 dark:bg-primary-container-dark hover:dark:bg-primary-container-dark/80 text-on-primary-container-light dark:text-on-primary-container-dark flex items-center gap-x-2 px-4 py-4 rounded-xl text-sm mt-4">
+      <button
+        onClick={() => onOpen("createModal")}
+        className="bg-primary-container-light hover:bg-primary-container-light/80 dark:bg-primary-container-dark hover:dark:bg-primary-container-dark/80 text-on-primary-container-light dark:text-on-primary-container-dark flex items-center gap-x-2 px-4 py-4 rounded-xl text-sm mt-4"
+      >
         <Plus className="h-5 w-5" />
         <span>New note</span>
       </button>

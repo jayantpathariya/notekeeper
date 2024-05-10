@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { Header } from "../components/header";
 import { Sidebar } from "../components/sidebar";
 import { FabButton } from "../components/fab-button";
+import { Modals } from "../components/modals";
 
 const RootLayout = () => {
   return (
@@ -12,6 +13,7 @@ const RootLayout = () => {
         <Header />
         <Outlet />
         <FabButton />
+        <Modals />
       </div>
     </div>
   );

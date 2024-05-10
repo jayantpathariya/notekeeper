@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import { cn } from "../lib/utils";
+import { useModal } from "../hooks/use-modal";
 
 type Props = {
   active?: boolean;
@@ -17,6 +18,7 @@ type Props = {
 export const SidebarItem = ({ active, notebook }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(notebook.title);
+  const { onOpen } = useModal();
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -36,6 +38,11 @@ export const SidebarItem = ({ active, notebook }: Props) => {
     if (e.key === "Enter") {
       setIsEditing(false);
     }
+  };
+
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    onOpen("deleteModal", notebook.title);
   };
 
   return (
@@ -70,7 +77,10 @@ export const SidebarItem = ({ active, notebook }: Props) => {
         >
           <Pencil className="h-4 w-4" />
         </button>
-        <button className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full">
+        <button
+          onClick={handleDelete}
+          className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full"
+        >
           <Trash2 className="h-4 w-4" />
         </button>
       </div>
