@@ -4,6 +4,9 @@ import { cn } from "../lib/utils";
 import { Link, useLocation } from "react-router-dom";
 import { SidebarItem } from "./sidebar-item";
 
+import lightLogo from "../assets/logo-light.svg";
+import darkLogo from "../assets/logo-dark.svg";
+
 const notes = [
   {
     id: 1,
@@ -35,12 +38,8 @@ export const Sidebar = () => {
     >
       <div className="flex items-center justify-between">
         <Link to="/" className="p-2">
-          <img className="dark:hidden w-36" src="./logo-light.svg" alt="logo" />
-          <img
-            className="hidden dark:block w-36"
-            src="./logo-dark.svg"
-            alt="logo"
-          />
+          <img className="dark:hidden w-36" src={lightLogo} alt="logo" />
+          <img className="hidden dark:block w-36" src={darkLogo} alt="logo" />
         </Link>
         <button className="hover:bg-surface-container-highest-light hover:dark:bg-surface-container-highest-dark p-1.5 rounded-full flex items-center justify-center transition duration-300 lg:hidden">
           <X className="w-4 h-4" />

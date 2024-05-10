@@ -40,7 +40,7 @@ export const SidebarItem = ({ active, notebook }: Props) => {
 
   return (
     <Link
-      to={`/note/${notebook.id}`}
+      to={`/notebooks/${notebook.id}`}
       className={cn(
         "flex items-center justify-between  hover:bg-secondary-container-light/70 hover:dark:bg-secondary-container-dark/70 text-on-secondary-container-light dark:text-on-secondary-container-dark h-14 px-5 py-3.5 rounded-full group translate duration-300 ease-in-out",
         active &&
