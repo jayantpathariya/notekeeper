@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import { Header } from "../components/header";
 import { Sidebar } from "../components/sidebar";
+import { FabButton } from "../components/fab-button";
 
 const RootLayout = () => {
   return (
@@ -10,6 +11,7 @@ const RootLayout = () => {
       <div className="lg:ml-[350px] p-4">
         <Header />
         <Outlet />
+        <FabButton />
       </div>
     </div>
   );
