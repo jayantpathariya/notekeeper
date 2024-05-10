@@ -7,6 +7,8 @@ import { Eye, EyeOff } from "lucide-react";
 
 import { LoginSchema } from "../schemas";
 
+import googleIcon from "../assets/google-icon.webp";
+
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -33,7 +35,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="bg-background-light dark:bg-background-dark text-on-background-light dark:text-on-background-dark min-h-screen flex items-center justify-center ">
+    <div className="bg-light dark:bg-dark text-on-light dark:text-on-dark font-kumb min-h-screen flex items-center justify-center ">
       <div className="bg-surface-container-highest-light dark:bg-surface-container-highest-dark max-w-[400px] w-[calc(100%-26px)] rounded-lg p-4 ">
         <h1 className="text-3xl font-bold text-center mb-6">Sign in</h1>
         <form
@@ -48,7 +50,7 @@ export const LoginForm = () => {
               placeholder="Email"
               disabled={isPending}
               {...register("email")}
-              className="p-3 border rounded-lg bg-background-light dark:bg-background-dark border-on-surface-variant-light"
+              className="p-3 border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
             />
             {errors.email && (
               <span className="text-sm text-rose-500 mt-1">
@@ -65,7 +67,7 @@ export const LoginForm = () => {
                 disabled={isPending}
                 placeholder="Password"
                 {...register("password")}
-                className="p-3 w-full border rounded-lg bg-background-light dark:bg-background-dark border-on-surface-variant-light"
+                className="p-3 w-full border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
               />
               {errors.password && (
                 <span className="text-sm text-rose-500 mt-1">
@@ -101,7 +103,7 @@ export const LoginForm = () => {
               disabled={isPending}
             >
               <img
-                src="/google-icon.webp"
+                src={googleIcon}
                 alt="Google Icon"
                 width={35}
                 height={35}
@@ -110,7 +112,7 @@ export const LoginForm = () => {
               Sign In with Google
             </button>
             <Link
-              to="/auth/sign-up"
+              to="/register"
               className="w-full text-primary-light dark:text-primary-dark text-center hover:opacity-80 text-sm md:text-base"
             >
               Don&apos;t have an account? Sign Up

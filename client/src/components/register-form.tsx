@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { RegisterSchema } from "../schemas";
 
+import googleIcon from "../assets/google-icon.webp";
+
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,7 +36,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div className="bg-background-light dark:bg-background-dark text-on-background-light dark:text-on-background-dark min-h-screen flex items-center justify-center ">
+    <div className="bg-light dark:bg-dark text-on-light dark:text-on-dark font-kumb min-h-screen flex items-center justify-center ">
       <div className="bg-surface-container-highest-light dark:bg-surface-container-highest-dark max-w-[400px] w-[calc(100%-26px)] rounded-lg p-4 ">
         <h1 className="text-3xl font-bold text-center mb-6">Sign up</h1>
         <form
@@ -49,7 +51,7 @@ export const RegisterForm = () => {
               placeholder="Name"
               disabled={isPending}
               {...register("name")}
-              className="p-3 border rounded-lg bg-background-light dark:bg-background-dark border-on-surface-variant-light"
+              className="p-3 border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
             />
             {errors.name && (
               <span className="text-sm text-rose-500 mt-1">
@@ -65,7 +67,7 @@ export const RegisterForm = () => {
               placeholder="Email"
               disabled={isPending}
               {...register("email")}
-              className="p-3 border rounded-lg bg-background-light dark:bg-background-dark border-on-surface-variant-light"
+              className="p-3 border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
             />
             {errors.email && (
               <span className="text-sm text-rose-500 mt-1">
@@ -82,7 +84,7 @@ export const RegisterForm = () => {
                 disabled={isPending}
                 placeholder="Password"
                 {...register("password")}
-                className="p-3 w-full border rounded-lg bg-background-light dark:bg-background-dark border-on-surface-variant-light"
+                className="p-3 w-full border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
               />
               {errors.password && (
                 <span className="text-sm text-rose-500 mt-1">
@@ -118,7 +120,7 @@ export const RegisterForm = () => {
               disabled={isPending}
             >
               <img
-                src="/google-icon.webp"
+                src={googleIcon}
                 alt="Google Icon"
                 width={35}
                 height={35}
@@ -127,7 +129,7 @@ export const RegisterForm = () => {
               Sign Up with Google
             </button>
             <Link
-              to="/auth/sign-in"
+              to="/login"
               className="w-full text-primary-light dark:text-primary-dark text-center hover:opacity-80 text-sm md:text-base"
             >
               Already have an account? Sign In

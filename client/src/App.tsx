@@ -15,7 +15,7 @@ function App() {
           <Route path="/notebooks/:id" element={<Notebook />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/login" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );
