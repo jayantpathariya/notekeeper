@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col gap-y-2 items-center justify-center">
+      <div className="bg-light dark:bg-dark text-on-light dark:text-on-dark min-h-screen flex flex-col gap-y-2 items-center justify-center">
         <Loader2 className="animate-spin size-12" />
         <p className="text-2xl">Loading...</p>
       </div>

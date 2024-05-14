@@ -12,16 +12,30 @@ type Props = {
 };
 
 export const ThemeProvider = ({ children }: Props) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  let savedTheme = localStorage.getItem("theme");
+  if (!savedTheme) {
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    savedTheme = prefersDarkMode ? "dark" : "light";
+  }
+
+  const [isDarkMode, setIsDarkMode] = useState(savedTheme === "dark");
 
   const theme = isDarkMode ? "dark" : "light";
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev);
+    setIsDarkMode((prev) => {
+      const newMode = !prev;
+      const newTheme = newMode ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      return newMode;
+    });
   };
 
   return (
