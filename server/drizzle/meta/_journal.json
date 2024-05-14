@@ -1,0 +1,41 @@
+{
+  "version": "6",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1715676390225,
+      "tag": "0000_wild_mole_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1715677498277,
+      "tag": "0001_tricky_oracle",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1715682363765,
+      "tag": "0002_lively_stellaris",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1715683714143,
+      "tag": "0003_wooden_mentor",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1715703858840,
+      "tag": "0004_futuristic_catseye",
+      "breakpoints": true
+    }
+  ]
+}

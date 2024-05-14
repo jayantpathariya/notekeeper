@@ -1,0 +1,1 @@
+ALTER TABLE "notebooks" RENAME COLUMN "name" TO "title";
