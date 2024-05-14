@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import RootLayout from "./layout/root-layout";
 import HomePage from "./pages/home";
@@ -8,16 +8,14 @@ import Notebook from "./pages/notebook";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/notebooks/:id" element={<Notebook />} />
-        </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="/notebooks/:id" element={<Notebook />} />
+      </Route>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+    </Routes>
   );
 }
 

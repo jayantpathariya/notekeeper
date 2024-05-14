@@ -1,18 +1,21 @@
+import axios from "axios";
 import { z } from "zod";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { RegisterSchema } from "../schemas";
 
 import googleIcon from "../assets/google-icon.webp";
+import { toast } from "sonner";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const isPending = false;
+  const navigate = useNavigate();
 
   const {
     register,
@@ -27,12 +30,37 @@ export const RegisterForm = () => {
     },
   });
 
+  const registerUser = async (values: z.infer<typeof RegisterSchema>) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post("/api/auth/register", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      });
+
+      if (res.status === 201) {
+        toast.success(res.data.message);
+        navigate("/login");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data.error);
+        return toast.error(error.response?.data.error);
+      }
+
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAuth = async () => {
     console.log("Google Auth");
   };
 
   const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
-    console.log(data);
+    registerUser(data);
   };
 
   return (
@@ -49,7 +77,7 @@ export const RegisterForm = () => {
               type="text"
               id="name"
               placeholder="Name"
-              disabled={isPending}
+              disabled={isLoading}
               {...register("name")}
               className="p-3 border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
             />
@@ -65,7 +93,7 @@ export const RegisterForm = () => {
               type="email"
               id="email"
               placeholder="Email"
-              disabled={isPending}
+              disabled={isLoading}
               {...register("email")}
               className="p-3 border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
             />
@@ -81,7 +109,7 @@ export const RegisterForm = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                disabled={isPending}
+                disabled={isLoading}
                 placeholder="Password"
                 {...register("password")}
                 className="p-3 w-full border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
@@ -95,7 +123,7 @@ export const RegisterForm = () => {
                 type="button"
                 className="absolute right-3 top-3.5"
                 onClick={() => setShowPassword((prev) => !prev)}
-                disabled={isPending}
+                disabled={isLoading}
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -109,7 +137,7 @@ export const RegisterForm = () => {
             <button
               type="submit"
               className="w-full px-4 py-2.5 rounded-full bg-primary-light hover:bg-primary-light/80 dark:bg-primary-dark hover:dark:bg-primary-dark/80 text-on-primary-light dark:text-on-primary-dark"
-              disabled={isPending}
+              disabled={isLoading}
             >
               Sign Up
             </button>
@@ -117,7 +145,7 @@ export const RegisterForm = () => {
               type="button"
               onClick={handleAuth}
               className="w-full px-4 py-2 rounded-full bg-primary-light hover:bg-primary-light/80 dark:bg-primary-dark hover:dark:bg-primary-dark/80 text-on-primary-light dark:text-on-primary-dark flex items-center justify-center gap-x-2"
-              disabled={isPending}
+              disabled={isLoading}
             >
               <img
                 src={googleIcon}

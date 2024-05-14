@@ -1,7 +1,10 @@
+import axios from "axios";
+
 import { z } from "zod";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -10,9 +13,10 @@ import { LoginSchema } from "../schemas";
 import googleIcon from "../assets/google-icon.webp";
 
 export const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const isPending = false;
+  const navigate = useNavigate();
 
   const {
     register,
@@ -26,12 +30,36 @@ export const LoginForm = () => {
     },
   });
 
+  const loginUser = async (values: z.infer<typeof LoginSchema>) => {
+    try {
+      setIsLoading(true);
+      const res = await axios.post("/api/auth/login", {
+        email: values.email,
+        password: values.password,
+      });
+
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        navigate("/");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data.error);
+        return toast.error(error.response?.data.error);
+      }
+
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAuth = async () => {
     console.log("Google Auth");
   };
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log(data);
+    loginUser(data);
   };
 
   return (
@@ -48,7 +76,7 @@ export const LoginForm = () => {
               type="email"
               id="email"
               placeholder="Email"
-              disabled={isPending}
+              disabled={isLoading}
               {...register("email")}
               className="p-3 border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
             />
@@ -64,7 +92,7 @@ export const LoginForm = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                disabled={isPending}
+                disabled={isLoading}
                 placeholder="Password"
                 {...register("password")}
                 className="p-3 w-full border rounded-lg bg-light dark:bg-dark border-on-surface-variant-light"
@@ -78,7 +106,7 @@ export const LoginForm = () => {
                 type="button"
                 className="absolute right-3 top-3.5"
                 onClick={() => setShowPassword((prev) => !prev)}
-                disabled={isPending}
+                disabled={isLoading}
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -92,7 +120,7 @@ export const LoginForm = () => {
             <button
               type="submit"
               className="w-full px-4 py-2.5 rounded-full bg-primary-light hover:bg-primary-light/80 dark:bg-primary-dark hover:dark:bg-primary-dark/80 text-on-primary-light dark:text-on-primary-dark"
-              disabled={isPending}
+              disabled={isLoading}
             >
               Sign In
             </button>
@@ -100,7 +128,7 @@ export const LoginForm = () => {
               type="button"
               onClick={handleAuth}
               className="w-full px-4 py-2 rounded-full bg-primary-light hover:bg-primary-light/80 dark:bg-primary-dark hover:dark:bg-primary-dark/80 text-on-primary-light dark:text-on-primary-dark flex items-center justify-center gap-x-2"
-              disabled={isPending}
+              disabled={isLoading}
             >
               <img
                 src={googleIcon}

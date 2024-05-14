@@ -41,7 +41,7 @@ app.post(
       password: hashedPassword,
     });
 
-    return c.json({ message: "User registered successfully" });
+    return c.json({ message: "User registered successfully" }, 201);
   }
 );
 
