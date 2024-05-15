@@ -1,6 +1,7 @@
 import { Trash2 } from "lucide-react";
 
 import { useModal } from "../hooks/use-modal";
+import { format } from "date-fns";
 
 type Props = {
   note: {
@@ -25,7 +26,7 @@ export const NoteCard = ({ note }: Props) => {
       </p>
       <div className="flex items-center justify-between mt-auto">
         <span className="text-xs text-on-surface-variant-light dark:text-on-surface-variant-dark">
-          {note.updatedAt}
+          {format(note.createdAt, "MMM dd, yyyy")}
         </span>
         <button
           onClick={() => onOpen("deleteModal", note.title)}
