@@ -67,7 +67,6 @@ export const SidebarItem = ({ active, notebook }: Props) => {
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    // @ts-expect-error - Fix this later
     onOpen("deleteModal", notebook.title, notebook.id);
   };
 
