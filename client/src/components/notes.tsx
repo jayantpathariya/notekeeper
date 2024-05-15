@@ -1,3 +1,4 @@
+import { EmptyNote } from "./empty-notes";
 import { NoteCard } from "./note-card";
 
 type Props = {
@@ -15,11 +16,11 @@ export const Notes = ({ notes }: Props) => {
     <section className="mt-2 h-full">
       <h1 className="text-sm font-medium">My Notebook</h1>
       <div className="mt-2 grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2 items-stretch content-start">
-        {notes?.map((note) => (
-          <NoteCard key={note.id} note={note} />
-        ))}
-
-        {/* <EmptyNote /> */}
+        {notes.length > 0 ? (
+          notes?.map((note) => <NoteCard key={note.id} note={note} />)
+        ) : (
+          <EmptyNote />
+        )}
       </div>
     </section>
   );
