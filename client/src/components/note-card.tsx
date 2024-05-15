@@ -1,7 +1,7 @@
 import { Trash2 } from "lucide-react";
 
 import { useModal } from "../hooks/use-modal";
-import { format } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 
 type Props = {
   note: {
@@ -26,7 +26,7 @@ export const NoteCard = ({ note }: Props) => {
       </p>
       <div className="flex items-center justify-between mt-auto">
         <span className="text-xs text-on-surface-variant-light dark:text-on-surface-variant-dark">
-          {format(note.createdAt, "MMM dd, yyyy")}
+          {formatDistanceToNow(note.createdAt, { addSuffix: true })}
         </span>
         <button
           onClick={() => onOpen("deleteModal", note.title)}
@@ -38,3 +38,20 @@ export const NoteCard = ({ note }: Props) => {
     </div>
   );
 };
+
+const Skeleton = () => {
+  return (
+    <div className="bg-surface-light dark:bg-surface-dark border border-outline-variant-light dark:border-outline-variant-dark p-4 rounded-xl flex flex-col gap-y-2 animate-pulse">
+      <div className="h-4 bg-on-surface-light/50 dark:bg-on-surface-dark/50 rounded w-1/2"></div>
+      <div className="h-4 bg-on-surface-variant-light/50 dark:bg-on-surface-variant-dark/50 rounded"></div>
+      <div className="h-4 bg-on-surface-variant-light/50 dark:bg-on-surface-variant-dark/50 rounded"></div>
+      <div className="h-4 w-[80%] bg-on-surface-variant-light/50 dark:bg-on-surface-variant-dark/50 rounded"></div>
+      <div className="flex items-center justify-between mt-auto">
+        <div className="h-3 w-12 bg-on-surface-variant-light/50 dark:bg-on-surface-variant-dark/50 rounded"></div>
+        <div className="h-5 w-5 bg-on-surface-light/50 dark:bg-on-surface-dark/50 rounded-full"></div>
+      </div>
+    </div>
+  );
+};
+
+NoteCard.Skeleton = Skeleton;

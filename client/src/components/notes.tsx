@@ -9,14 +9,21 @@ type Props = {
     createdAt: string;
     updatedAt: string;
   }[];
+  isLoading: boolean;
 };
 
-export const Notes = ({ notes }: Props) => {
+export const Notes = ({ notes, isLoading }: Props) => {
   return (
     <section className="mt-2 h-full">
       <h1 className="text-sm font-medium">My Notebook</h1>
       <div className="mt-2 grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2 items-stretch content-start">
-        {notes.length > 0 ? (
+        {isLoading ? (
+          <>
+            <NoteCard.Skeleton />
+            <NoteCard.Skeleton />
+            <NoteCard.Skeleton />
+          </>
+        ) : notes?.length > 0 ? (
           notes?.map((note) => <NoteCard key={note.id} note={note} />)
         ) : (
           <EmptyNote />
