@@ -2,10 +2,12 @@ import dayjs from "dayjs";
 import { Menu, Moon, Sun } from "lucide-react";
 
 import { useTheme } from "../hooks/use-theme";
+import { useSidebar } from "../hooks/use-sidebar";
 import { ProfileButton } from "./profile-button";
 
 export const Header = () => {
   const { theme, toggleTheme } = useTheme();
+  const { toggleSidebar } = useSidebar();
 
   const greeting = () => {
     const date = new Date();
@@ -44,7 +46,7 @@ export const Header = () => {
         </button>
         <button
           className="lg:hidden hover:bg-surface-container-highest-light hover:dark:bg-surface-container-highest-dark p-1.5 rounded-full flex items-center justify-center transition duration-300"
-          // onClick={toggleSidebar}
+          onClick={toggleSidebar}
         >
           <Menu className="h-5 w-5" />
         </button>

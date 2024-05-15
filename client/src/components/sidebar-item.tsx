@@ -74,6 +74,7 @@ export const SidebarItem = ({ active, notebook }: Props) => {
       </div>
       <div className="hidden items-center gap-x-1 group-hover:flex">
         <button
+          type="button"
           className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full"
           onClick={handleEdit}
         >

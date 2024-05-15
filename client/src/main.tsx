@@ -9,8 +9,9 @@ import "./index.css";
 import { ThemeProvider } from "./providers/theme-provider.tsx";
 import { ModalProvider } from "./providers/modal-provider.tsx";
 import { AuthProvider } from "./providers/auth-provider.tsx";
+import { SidebarProvider } from "./providers/sidebar-provider.tsx";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -18,17 +19,19 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <ThemeProvider>
           <AuthProvider>
-            <ModalProvider>
-              <App />
-              <Toaster
-                toastOptions={{
-                  classNames: {
-                    toast: "bg-primary-light dark:bg-primary-dark",
-                    title: "text-on-primary-light dark:text-on-primary-dark",
-                  },
-                }}
-              />
-            </ModalProvider>
+            <SidebarProvider>
+              <ModalProvider>
+                <App />
+                <Toaster
+                  toastOptions={{
+                    classNames: {
+                      toast: "bg-primary-light dark:bg-primary-dark",
+                      title: "text-on-primary-light dark:text-on-primary-dark",
+                    },
+                  }}
+                />
+              </ModalProvider>
+            </SidebarProvider>
           </AuthProvider>
         </ThemeProvider>
       </BrowserRouter>
