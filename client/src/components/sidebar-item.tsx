@@ -1,13 +1,12 @@
-"use client";
-
-import { Pencil, Trash2 } from "lucide-react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Pencil, Trash2 } from "lucide-react";
 
 import { cn } from "../lib/utils";
 import { useModal } from "../hooks/use-modal";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { queryClient } from "../main";
 
 type Props = {
@@ -43,18 +42,33 @@ export const SidebarItem = ({ active, notebook }: Props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    notebookEditMutation.mutate({ id: notebook.id, title: text });
+    notebookEditMutation.mutate(
+      { id: notebook.id, title: text },
+      {
+        onSuccess: () => {
+          toast("Notebook updated successfully");
+        },
+      }
+    );
     setIsEditing(false);
   };
 
   const handleBlur = () => {
-    notebookEditMutation.mutate({ id: notebook.id, title: text });
+    notebookEditMutation.mutate(
+      { id: notebook.id, title: text },
+      {
+        onSuccess: () => {
+          toast("Notebook updated successfully");
+        },
+      }
+    );
     setIsEditing(false);
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    onOpen("deleteModal", notebook.title);
+    // @ts-expect-error - Fix this later
+    onOpen("deleteModal", notebook.title, notebook.id);
   };
 
   return (

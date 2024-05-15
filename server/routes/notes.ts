@@ -100,23 +100,16 @@ app.get(
     const { notebookId } = c.req.valid("param");
     const auth = c.var.auth;
 
-    const notebook = await db.query.notebooks.findFirst({
+    const data = await db.query.notebooks.findFirst({
       where: and(
         eq(notebooks.userId, auth.id),
         eq(notebooks.id, Number(notebookId))
       ),
-    });
-
-    if (!notebook) {
-      return c.json({ error: "Notebook not found" }, 404);
-    }
-
-    const data = await db.query.notes.findMany({
-      where: eq(notes.notebookId, Number(notebookId)),
+      with: { notes: true },
     });
 
     if (!data) {
-      return c.json({ error: "Notes not found" }, 404);
+      return c.json({ error: "Notebook not found" }, 404);
     }
 
     return c.json({ data });

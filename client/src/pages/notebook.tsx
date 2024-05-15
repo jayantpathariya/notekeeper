@@ -12,13 +12,18 @@ const getNotes = async (notebookId: string | undefined) => {
 const Notebook = () => {
   const { id } = useParams();
 
-  const { data: notes, isLoading } = useQuery({
+  const { data: notebook, isLoading } = useQuery({
     queryKey: ["notes", id],
     queryFn: () => getNotes(id),
   });
+
   return (
     <div>
-      <Notes notes={notes} isLoading={isLoading} />
+      <Notes
+        title={notebook?.title}
+        notes={notebook?.notes}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

@@ -5,6 +5,7 @@ type ModalType = "createModal" | "deleteModal";
 type ModalContextType = {
   type: ModalType | null;
   title: string;
+  id: number | null;
   isOpen: boolean;
   onOpen: (type: ModalType, title?: string) => void;
   onClose: () => void;
@@ -19,18 +20,21 @@ type Props = {
 export const ModalProvider = ({ children }: Props) => {
   const [type, setType] = useState<ModalType | null>(null);
   const [title, setTitle] = useState("");
+  const [id, setId] = useState<null | number>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const onOpen = (type: ModalType, title?: string) => {
+  const onOpen = (type: ModalType, title?: string, id?: number) => {
     setType(type);
     setTitle(title || "");
     setIsOpen(true);
+    setId(id || null);
   };
 
   const onClose = () => {
     setType(null);
     setTitle("");
     setIsOpen(false);
+    setId(null);
   };
 
   return (
@@ -38,6 +42,7 @@ export const ModalProvider = ({ children }: Props) => {
       value={{
         type,
         title,
+        id,
         isOpen,
         onOpen,
         onClose,

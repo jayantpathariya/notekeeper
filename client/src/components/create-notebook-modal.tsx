@@ -25,7 +25,7 @@ const createNote = async ({
   return response.data;
 };
 
-export const CreateNoteModal = () => {
+export const CreateNotebookModal = () => {
   const [title, setTitle] = useState("Untitled");
   const [content, setContent] = useState("");
 
@@ -73,17 +73,19 @@ export const CreateNoteModal = () => {
             value={title}
             placeholder="Title"
             onChange={(e) => setTitle(e.target.value)}
-            className="bg-transparent outline-none border-none text-on-surface-light dark:text-on-surface-dark placeholder:text-on-surface-light placeholder:dark:text-on-surface-dark"
+            className="bg-transparent outline-none border-none text-on-surface-light dark:text-on-surface-dark placeholder:text-on-surface-light placeholder:dark:text-on-surface-dark font-bold"
           />
-          {/* <p className="text-on-surface-light dark:text-on-surface-dark">
-            Untitled
-          </p> */}
-          <button onClick={handleClose}>
-            <X />
+
+          <button
+            className="hover:bg-surface-container-low-light/50 hover:dark:bg-surface-container-low-dark/50 p-1.5 rounded-full flex items-center justify-center transition duration-300"
+            type="button"
+            onClick={handleClose}
+          >
+            <X className="w-5 h-5" />
           </button>
         </div>
         <textarea
-          className="min-h-[240px] max-h-[calc(100vh-200px)] w-full text-on-surface-light dark:text-on-surface-dark bg-transparent outline-none border-none overflow-y-auto placeholder:text-on-surface-light placeholder:dark:text-on-surface-dark"
+          className="min-h-[240px] max-h-[calc(100vh-200px)] w-full text-on-surface-light dark:text-on-surface-dark bg-transparent outline-none border-none overflow-y-auto placeholder:text-on-surface-light placeholder:dark:text-on-surface-dark text-sm"
           placeholder="Take a note..."
           value={content}
           onChange={(e) => setContent(e.target.value)}

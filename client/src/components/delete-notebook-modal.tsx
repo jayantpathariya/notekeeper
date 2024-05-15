@@ -1,10 +1,37 @@
-import { useModal } from "../hooks/use-modal";
-import { cn } from "../lib/utils";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-export const DeleteNoteModal = () => {
-  const { isOpen, onClose, type, title } = useModal();
+import { cn } from "../lib/utils";
+import { useModal } from "../hooks/use-modal";
+import { queryClient } from "../main";
+
+const deleteNotebook = async (id: number) => {
+  const response = await axios.delete(`/api/notebooks/${id}`);
+  return response.data.data;
+};
+
+export const DeleteNotebookModal = () => {
+  const { isOpen, onClose, type, title, id } = useModal();
 
   const isModalOpen = isOpen && type === "deleteModal";
+
+  const navigate = useNavigate();
+
+  const notebookDeleteMutation = useMutation({
+    mutationFn: deleteNotebook,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notebooks"] });
+      queryClient.invalidateQueries({ queryKey: ["notes", id] });
+    },
+  });
+
+  const handleDelete = () => {
+    if (!id) return;
+    notebookDeleteMutation.mutate(id);
+    navigate("/");
+    onClose();
+  };
 
   return (
     <div>
@@ -25,7 +52,10 @@ export const DeleteNoteModal = () => {
             >
               Cancel
             </button>
-            <button className="px-4 py-2 rounded-full bg-primary-light hover:bg-primary-light/80 dark:bg-primary-dark hover:dark:bg-primary-dark/80 text-on-primary-light dark:text-on-primary-dark">
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2 rounded-full bg-primary-light hover:bg-primary-light/80 dark:bg-primary-dark hover:dark:bg-primary-dark/80 text-on-primary-light dark:text-on-primary-dark"
+            >
               Delete
             </button>
           </div>
