@@ -31,9 +31,19 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       const response = await axios.get("/api/auth/me");
       setUser(response.data);
+
+      if (
+        (location.pathname === "/login" || location.pathname === "/register") &&
+        response.data
+      ) {
+        navigate("/");
+      }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
-        if (location.pathname !== "/login") {
+        if (
+          location.pathname !== "/login" &&
+          location.pathname !== "/register"
+        ) {
           setUser(null);
           navigate("/login");
         }

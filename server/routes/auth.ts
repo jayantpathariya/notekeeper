@@ -102,6 +102,14 @@ app.get("/me", isAuth, async (c) => {
   try {
     const payload = await verify(token, process.env.JWT_SECRET!);
 
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, payload.id),
+    });
+
+    if (!user) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
     return c.json(payload);
   } catch (error) {
     return c.json({ error: "Unauthorized" }, 401);

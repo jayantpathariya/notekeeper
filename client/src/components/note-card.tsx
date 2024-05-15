@@ -38,9 +38,9 @@ export const NoteCard = ({ note }: Props) => {
         </span>
         <button
           onClick={handleDelete}
-          className="opacity-0 group-hover:opacity-100 transition duration-300 text-on-surface-light dark:text-on-surface-dark"
+          className="opacity-0 group-hover:opacity-100 transition duration-300 text-on-surface-light dark:text-on-surface-dark hover:bg-surface-container-low-light/50 hover:dark:bg-surface-container-low-dark/50 p-1.5 rounded-full flex items-center justify-center "
         >
-          <Trash2 className="h-5 w-5" />
+          <Trash2 className="h-4 w-4" />
         </button>
       </div>
     </div>
