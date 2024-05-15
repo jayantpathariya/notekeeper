@@ -1,6 +1,10 @@
 import { createContext, useState } from "react";
 
-type ModalType = "createModal" | "deleteModal" | "editModal";
+type ModalType =
+  | "createModal"
+  | "deleteModal"
+  | "editModal"
+  | "deleteNoteModal";
 
 type ModalContextType = {
   type: ModalType | null;

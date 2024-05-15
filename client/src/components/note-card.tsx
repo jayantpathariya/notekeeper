@@ -16,6 +16,11 @@ type Props = {
 export const NoteCard = ({ note }: Props) => {
   const { onOpen } = useModal();
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onOpen("deleteNoteModal", note.title, note.id);
+  };
+
   return (
     <div
       onClick={() => onOpen("editModal", undefined, note.id)}
@@ -32,7 +37,7 @@ export const NoteCard = ({ note }: Props) => {
           {formatDistanceToNow(note.createdAt, { addSuffix: true })}
         </span>
         <button
-          onClick={() => onOpen("deleteModal", note.title)}
+          onClick={handleDelete}
           className="opacity-0 group-hover:opacity-100 transition duration-300 text-on-surface-light dark:text-on-surface-dark"
         >
           <Trash2 className="h-5 w-5" />
