@@ -49,7 +49,8 @@ export const Sidebar = () => {
       </div>
       <button
         onClick={() => onOpen("createModal")}
-        className="bg-primary-container-light hover:bg-primary-container-light/80 dark:bg-primary-container-dark hover:dark:bg-primary-container-dark/80 text-on-primary-container-light dark:text-on-primary-container-dark flex items-center gap-x-2 px-4 py-4 rounded-xl text-sm mt-4"
+        disabled={!location.pathname.includes("notebook")}
+        className="bg-primary-container-light hover:bg-primary-container-light/80 dark:bg-primary-container-dark hover:dark:bg-primary-container-dark/80 text-on-primary-container-light dark:text-on-primary-container-dark flex items-center gap-x-2 px-4 py-4 rounded-xl text-sm mt-4 disabled:opacity-50 disabled:pointer-events-none"
       >
         <Plus className="h-5 w-5" />
         <span>New note</span>

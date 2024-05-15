@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { createContext, useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type User = {
   id: string;
@@ -25,21 +25,23 @@ export const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const checkAuth = useCallback(async () => {
     try {
       const response = await axios.get("/api/auth/me");
       setUser(response.data);
-      navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
-        setUser(null);
-        navigate("/login");
+        if (location.pathname !== "/login") {
+          setUser(null);
+          navigate("/login");
+        }
       }
     } finally {
       setLoading(false);
     }
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   useEffect(() => {
     checkAuth();

@@ -1,12 +1,7 @@
-import { useTheme } from "../hooks/use-theme";
-
 const HomePage = () => {
-  const { toggleTheme } = useTheme();
-
   return (
-    <div>
-      <h1>HomePage</h1>
-      <button onClick={toggleTheme}>Theme</button>
+    <div className="h-[calc(100vh-90px)] flex items-center justify-center">
+      <p className="text-lg">Select notebook from the sidebar to get started</p>
     </div>
   );
 };
