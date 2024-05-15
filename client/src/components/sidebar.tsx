@@ -55,8 +55,6 @@ export const Sidebar = () => {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
   return (
     <aside
       className={cn(
@@ -96,15 +94,23 @@ export const Sidebar = () => {
           </button>
         </div>
 
-        <form className="mt-4 flex flex-col gap-y-2">
-          {notebooks?.map((note) => (
-            <SidebarItem
-              key={note.id}
-              active={note.id === Number(activeNotebookId)}
-              notebook={note}
-            />
-          ))}
-        </form>
+        <div className="mt-4 flex flex-col gap-y-2">
+          {isLoading ? (
+            <>
+              <SidebarItem.Skeleton />
+              <SidebarItem.Skeleton />
+              <SidebarItem.Skeleton />
+            </>
+          ) : (
+            notebooks?.map((note) => (
+              <SidebarItem
+                key={note.id}
+                active={note.id === Number(activeNotebookId)}
+                notebook={note}
+              />
+            ))
+          )}
+        </div>
       </div>
     </aside>
   );

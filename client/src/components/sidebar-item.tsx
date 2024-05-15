@@ -49,7 +49,7 @@ export const SidebarItem = ({ active, notebook }: Props) => {
     <Link
       to={`/notebooks/${notebook.id}`}
       className={cn(
-        "flex items-center justify-between  hover:bg-secondary-container-light/70 hover:dark:bg-secondary-container-dark/70 text-on-secondary-container-light dark:text-on-secondary-container-dark h-14 px-5 py-3.5 rounded-full group translate duration-300 ease-in-out",
+        "flex items-center justify-between hover:bg-secondary-container-light/70 hover:dark:bg-secondary-container-dark/70 text-on-secondary-container-light dark:text-on-secondary-container-dark h-14 px-5 py-3.5 rounded-full group translate duration-300 ease-in-out",
         active &&
           "bg-secondary-container-light dark:bg-secondary-container-dark",
         isEditing &&
@@ -90,3 +90,11 @@ export const SidebarItem = ({ active, notebook }: Props) => {
     </Link>
   );
 };
+
+const Skeleton = () => {
+  return (
+    <div className="animate-pulse bg-on-surface-variant-light/50 dark:bg-on-surface-variant-dark/50 h-14 rounded-full" />
+  );
+};
+
+SidebarItem.Skeleton = Skeleton;
