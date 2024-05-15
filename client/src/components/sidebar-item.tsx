@@ -6,6 +6,9 @@ import { useState } from "react";
 
 import { cn } from "../lib/utils";
 import { useModal } from "../hooks/use-modal";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { queryClient } from "../main";
 
 type Props = {
   active?: boolean;
@@ -15,10 +18,22 @@ type Props = {
   };
 };
 
+const editNotebook = async ({ id, title }: { id: number; title: string }) => {
+  const response = await axios.post(`/api/notebooks/${id}`, { title });
+  return response.data.data;
+};
+
 export const SidebarItem = ({ active, notebook }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(notebook.title);
   const { onOpen } = useModal();
+
+  const notebookEditMutation = useMutation({
+    mutationFn: editNotebook,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notebooks"] });
+    },
+  });
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -26,18 +41,15 @@ export const SidebarItem = ({ active, notebook }: Props) => {
     setIsEditing(true);
   };
 
-  const handleEditNote = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-  };
-
-  const handleBlur = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    notebookEditMutation.mutate({ id: notebook.id, title: text });
     setIsEditing(false);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      setIsEditing(false);
-    }
+  const handleBlur = () => {
+    notebookEditMutation.mutate({ id: notebook.id, title: text });
+    setIsEditing(false);
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -46,48 +58,51 @@ export const SidebarItem = ({ active, notebook }: Props) => {
   };
 
   return (
-    <Link
-      to={`/notebooks/${notebook.id}`}
-      className={cn(
-        "flex items-center justify-between hover:bg-secondary-container-light/70 hover:dark:bg-secondary-container-dark/70 text-on-secondary-container-light dark:text-on-secondary-container-dark h-14 px-5 py-3.5 rounded-full group translate duration-300 ease-in-out",
-        active &&
-          "bg-secondary-container-light dark:bg-secondary-container-dark",
-        isEditing &&
-          "bg-secondary-container-light dark:bg-secondary-container-dark"
-      )}
-    >
-      <div>
-        {isEditing ? (
-          <input
-            type="text"
-            value={text}
-            onChange={handleEditNote}
-            onClick={(e) => e.preventDefault()}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            autoFocus
-            className="text-sm w-full bg-transparent border-none focus:ring-0 focus:outline-none"
-          />
-        ) : (
-          <p className="text-sm">{text}</p>
+    <form onSubmit={handleSubmit}>
+      <Link
+        to={`/notebooks/${notebook.id}`}
+        className={cn(
+          "flex items-center justify-between hover:bg-secondary-container-light/70 hover:dark:bg-secondary-container-dark/70 text-on-secondary-container-light dark:text-on-secondary-container-dark h-14 px-5 py-3.5 rounded-full group translate duration-300 ease-in-out",
+          active &&
+            "bg-secondary-container-light dark:bg-secondary-container-dark",
+          isEditing &&
+            "bg-secondary-container-light dark:bg-secondary-container-dark"
         )}
-      </div>
-      <div className="hidden items-center gap-x-1 group-hover:flex">
-        <button
-          type="button"
-          className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full"
-          onClick={handleEdit}
-        >
-          <Pencil className="h-4 w-4" />
-        </button>
-        <button
-          onClick={handleDelete}
-          className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full"
-        >
-          <Trash2 className="h-4 w-4" />
-        </button>
-      </div>
-    </Link>
+      >
+        <div>
+          {isEditing ? (
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onClick={(e) => e.preventDefault()}
+              onBlur={handleBlur}
+              // onKeyDown={handleKeyDown}
+              autoFocus
+              className="text-sm w-full bg-transparent border-none focus:ring-0 focus:outline-none"
+            />
+          ) : (
+            <p className="text-sm">{text}</p>
+          )}
+        </div>
+        <div className="hidden items-center gap-x-1 group-hover:flex">
+          <button
+            type="button"
+            className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full"
+            onClick={handleEdit}
+          >
+            <Pencil className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="hover:bg-on-secondary-container-light/20 hover:dark:bg-on-secondary-container-dark/20 p-1.5 rounded-full"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      </Link>
+    </form>
   );
 };
 
