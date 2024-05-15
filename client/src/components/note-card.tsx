@@ -17,7 +17,10 @@ export const NoteCard = ({ note }: Props) => {
   const { onOpen } = useModal();
 
   return (
-    <div className="bg-surface-light dark:bg-surface-dark border border-outline-variant-light dark:border-outline-variant-dark p-4 rounded-xl flex flex-col gap-y-2 hover:border-outline-light hover:dark:border-outline-dark transition duration-300 hover:bg-surface-dark/10 hover:dark:dark:bg-surface-light/10 active:bg-surface-dark/15 active:dark:dark:bg-surface-light/15 cursor-pointer group">
+    <div
+      onClick={() => onOpen("editModal", undefined, note.id)}
+      className="bg-surface-light dark:bg-surface-dark border border-outline-variant-light dark:border-outline-variant-dark p-4 rounded-xl flex flex-col gap-y-2 hover:border-outline-light hover:dark:border-outline-dark transition duration-300 hover:bg-surface-dark/10 hover:dark:dark:bg-surface-light/10 active:bg-surface-dark/15 active:dark:dark:bg-surface-light/15 cursor-pointer group"
+    >
       <h2 className="text-on-surface-light dark:text-on-surface-dark text-sm font-medium">
         {note.title}
       </h2>

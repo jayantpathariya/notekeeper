@@ -116,6 +116,58 @@ app.get(
   }
 );
 
+app.post(
+  "/:id",
+  zValidator(
+    "param",
+    z.object({
+      id: z.string(),
+    })
+  ),
+  zValidator(
+    "json",
+    insertNoteSchema.pick({
+      title: true,
+      content: true,
+    })
+  ),
+  isAuth,
+  async (c) => {
+    const { id } = c.req.valid("param");
+    const values = c.req.valid("json");
+    const auth = c.var.auth;
+
+    const data = await db.query.notes.findFirst({
+      where: eq(notes.id, Number(id)),
+    });
+
+    if (!data) {
+      return c.json({ error: "Note not found" }, 404);
+    }
+
+    const notebook = await db.query.notebooks.findFirst({
+      where: and(
+        eq(notebooks.userId, auth.id),
+        eq(notebooks.id, data.notebookId)
+      ),
+    });
+
+    if (notebook?.userId !== auth.id) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    await db
+      .update(notes)
+      .set({
+        title: values.title,
+        content: values.content,
+      })
+      .where(eq(notes.id, Number(id)));
+
+    return c.json({ message: "Note updated" });
+  }
+);
+
 app.delete(
   ":id",
   zValidator(

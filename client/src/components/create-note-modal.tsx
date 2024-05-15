@@ -25,7 +25,7 @@ const createNote = async ({
   return response.data;
 };
 
-export const CreateNotebookModal = () => {
+export const CreateNoteModal = () => {
   const [title, setTitle] = useState("Untitled");
   const [content, setContent] = useState("");
 

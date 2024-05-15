@@ -1,13 +1,13 @@
 import { createContext, useState } from "react";
 
-type ModalType = "createModal" | "deleteModal";
+type ModalType = "createModal" | "deleteModal" | "editModal";
 
 type ModalContextType = {
   type: ModalType | null;
   title: string;
   id: number | null;
   isOpen: boolean;
-  onOpen: (type: ModalType, title?: string) => void;
+  onOpen: (type: ModalType, title?: string, id?: number) => void;
   onClose: () => void;
 };
 

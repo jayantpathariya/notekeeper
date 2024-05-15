@@ -1,11 +1,13 @@
-import { CreateNotebookModal } from "./create-notebook-modal";
+import { CreateNoteModal } from "./create-note-modal";
 import { DeleteNotebookModal } from "./delete-notebook-modal";
+import { EditNoteModal } from "./edit-note-modal";
 
 export const Modals = () => {
   return (
     <>
-      <CreateNotebookModal />
+      <CreateNoteModal />
       <DeleteNotebookModal />
+      <EditNoteModal />
     </>
   );
 };
